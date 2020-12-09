@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RxJava操作符 | 纵有疾风起，人生不言弃。</title><meta name="description" content="RxJava操作符官网地址：http:&#x2F;&#x2F;reactivex.io&#x2F;documentation&#x2F;operators.html 按照操作符的类型可分为：创建操作符，变换操作符，过滤操作符，组合操作符，错误操作符，辅助操作符，条件和布尔操作符，算术和聚合操作符 及 连接操作符 等。  RxJava3 中 Action被弃用了，改为Consumer  创建操作符 create传入自定义Onsubscri"><meta name="keywords" content="android,rxjava"><meta name="author" content="@caoyangim"><meta name="copyright" content="@caoyangim"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://caoyangim.github.io/2020/12/09/RxJava%E6%93%8D%E4%BD%9C%E7%AC%A6/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="RxJava操作符"><meta property="og:url" content="https://caoyangim.github.io/2020/12/09/RxJava%E6%93%8D%E4%BD%9C%E7%AC%A6/"><meta property="og:site_name" content="纵有疾风起，人生不言弃。"><meta property="og:description" content="RxJava操作符官网地址：http:&#x2F;&#x2F;reactivex.io&#x2F;documentation&#x2F;operators.html 按照操作符的类型可分为：创建操作符，变换操作符，过滤操作符，组合操作符，错误操作符，辅助操作符，条件和布尔操作符，算术和聚合操作符 及 连接操作符 等。  RxJava3 中 Action被弃用了，改为Consumer  创建操作符 create传入自定义Onsubscri"><meta property="og:image" content="https://caoyangim.github.io/2020/12/09/RxJava%E6%93%8D%E4%BD%9C%E7%AC%A6/84311628_p0.jpg"><meta property="article:published_time" content="2020-12-09T10:09:54.285Z"><meta property="article:modified_time" content="2020-12-09T10:16:20.879Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.1.1',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: false,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-12-09 18:16:20'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 5.1.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">26</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">10</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书籍</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RxJava%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.</span> <span class="toc-text">RxJava操作符</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.1.</span> <span class="toc-text">创建操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E6%8D%A2%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.2.</span> <span class="toc-text">变换操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.3.</span> <span class="toc-text">过滤操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%93%8D%E4%BD%9C"><span class="toc-number">1.4.</span> <span class="toc-text">组合操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%85%E5%8A%A9%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.5.</span> <span class="toc-text">辅助操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.6.</span> <span class="toc-text">错误处理操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.7.</span> <span class="toc-text">布尔操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.8.</span> <span class="toc-text">条件操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.9.</span> <span class="toc-text">转换操作符</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/2020/12/09/RxJava%E6%93%8D%E4%BD%9C%E7%AC%A6/84311628_p0.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">纵有疾风起，人生不言弃。</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书籍</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">RxJava操作符</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-09T10:09:54.285Z" title="发表于 2020-12-09 18:09:54">2020-12-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-12-09T10:16:20.879Z" title="更新于 2020-12-09 18:16:20">2020-12-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java%E5%9F%BA%E7%A1%80/">java基础</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="RxJava操作符"><a href="#RxJava操作符" class="headerlink" title="RxJava操作符"></a>RxJava操作符</h1><p>官网地址：<a target="_blank" rel="noopener" href="http://reactivex.io/documentation/operators.html">http://reactivex.io/documentation/operators.html</a></p>
+<p>按照操作符的类型可分为：<strong>创建操作符，变换操作符，过滤操作符，组合操作符，错误操作符，辅助操作符，条件和布尔操作符，算术和聚合操作符 及 连接操作符</strong> 等。</p>
+<blockquote>
+<p>RxJava3 中 <code>Action</code><T>被弃用了，改为<code>Consumer</code><T></p>
+</blockquote>
+<h2 id="创建操作符"><a href="#创建操作符" class="headerlink" title="创建操作符"></a>创建操作符</h2><ul>
+<li><strong>create</strong>传入自定义<code>Onsubscribe</code>。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Observable.create(<span class="keyword">new</span> Observable.OnSubscribe&lt;T&gt;()&#123;</span><br><span class="line">	<span class="meta">@Overrode</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Subscriber&lt;? <span class="keyword">super</span> T&gt;)</span>  sub)</span>&#123;</span><br><span class="line">		sub.onNext(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">		sub.onNext(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">		sub.onCompleted();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>from</strong> 传入数组：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String list = &#123;<span class="string">&quot;0&quot;</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;2&quot;</span>&#125;</span><br><span class="line">Observable.from(list);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>just</strong> </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable.just(<span class="string">&quot;0&quot;</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;2&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>interval</strong> 创建一个 按固定时间<strong>间隔</strong>发射整数<Long>序列 的Observable。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Observable&lt;Long&gt; observable = Observable.interval(<span class="number">3</span>, TimeUnit.SECONDS, Schedulers.trampoline());</span><br><span class="line"><span class="comment">//, Schedulers.trampoline() 指定一个线程，默认新线程（ＮＥＷ＿ＴＨＲＥＡＤ），这种情况下主线程结束，程序就结束了。</span></span><br><span class="line">observable.subscribe(<span class="keyword">new</span> Consumer&lt;Long&gt;() &#123;  <span class="comment">//泛型只能是Long类型，下同</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Long aLong)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">         <span class="comment">//TODO </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20201207122725363.png" alt="image-20201207122725363" style="zoom:50%;" />
+
+<ul>
+<li><strong>range</strong> 创建 发射指定<strong>范围</strong>的整数<Integer>序列 的Observable。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable&lt;Integer&gt; observable = Observable.range(<span class="number">0</span>,<span class="number">5</span>);<span class="comment">//左闭右开</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>repeat</strong>  重复多少次</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Observable&lt;Integer&gt; observable = Observable.range(<span class="number">0</span>,<span class="number">5</span>)</span><br><span class="line">		.repeat(<span class="number">2</span>)<span class="comment">//重复两次</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="变换操作符"><a href="#变换操作符" class="headerlink" title="变换操作符"></a>变换操作符</h2><ul>
+<li><strong>map</strong> 将一个对象转变为另一个对象； —-偷梁换柱</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Observable&lt;Integer&gt; observable = Observable.range(<span class="number">0</span>,<span class="number">5</span>);</span><br><span class="line">Observable&lt;String&gt; map = observable.map(<span class="keyword">new</span> Function&lt;Integer, String&gt;() &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">apply</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> integer.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>flatMap</strong>和<strong>cast</strong>  <code>flatMap</code> 将一个对象转为<code>Observable</code>集合；  <code>cast</code>转为集合后电脑不知道你的<code>Observable</code>的泛型类型，需要用<code>cast</code>转换。   —–偷天换日</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Observable&lt;Integer&gt; observable = Observable.range(<span class="number">0</span>,<span class="number">5</span>);</span><br><span class="line">observable.flatMap(<span class="keyword">new</span> Function&lt;Integer, ObservableSource&lt;?&gt;&gt;() &#123;</span><br><span class="line">    <span class="keyword">public</span> ObservableSource&lt;?&gt; apply(Integer integer) <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">        <span class="keyword">return</span> Observable.just(<span class="string">&quot;0&quot;</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;haha&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).cast(String.class);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>concatMap</strong></li>
+</ul>
+<p>和<code>FlatMap</code>类似。区别在于：<code>flatMap</code>不保证顺序，当上一个操作未执行时，下一个操作可能已经发射。</p>
+<p><code>concatMap</code>保证了顺序，必须等到上一个操作发射完，才会发射下一个。</p>
+<blockquote>
+<p><code>concatMap</code>和<code>flatMap</code>的功能是一样的，  将一个发射数据的Observable变换为多个Observables，然后将它们发射的数据放进一个单独的Observable。只不过最后合并Observables<code>flatMap</code>采用的merge，而<code>concatMap</code>采用的是连接(concat)。总之一句一话,他们的区别在于：<strong>concatMap是有序的，flatMap是无序的，concatMap最终输出的顺序与原序列保持一致，而flatMap则不一定，有可能出现交错。</strong>      —出自<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f67e05d7cd30">这里</a></p>
+</blockquote>
+<ul>
+<li>**flatMapIteravle **  把每一个元素转换成<code>Iterable</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Observable</span><br><span class="line">        .interval(<span class="number">1</span>, TimeUnit.SECONDS, Schedulers.trampoline())</span><br><span class="line">        .flatMapIterable( aLong -&gt; Arrays.asList(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;integer&quot;</span>) )</span><br><span class="line">        .subscribe(s -&gt; System.out.println(s));</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>buffer</strong>  将Observable转为一个新的Observable，这个新Observable每次发射一组列表，而不是一个个发射。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Observable</span><br><span class="line">        .interval(<span class="number">1</span>, TimeUnit.SECONDS, Schedulers.trampoline())</span><br><span class="line">        .buffer(<span class="number">3</span>)<span class="comment">//集满3个再一并发射</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>groupBy</strong>  将Observable转为一个新的Observable,然后可以分组。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Person p1 = <span class="keyword">new</span> Person(<span class="string">&quot;hh&quot;</span>,<span class="number">13</span>);</span><br><span class="line">Person p2 = <span class="keyword">new</span> Person(<span class="string">&quot;ff&quot;</span>,<span class="number">13</span>);</span><br><span class="line">Person p3 = <span class="keyword">new</span> Person(<span class="string">&quot;gg&quot;</span>,<span class="number">23</span>);</span><br><span class="line">Person p4 = <span class="keyword">new</span> Person(<span class="string">&quot;aa&quot;</span>,<span class="number">13</span>);</span><br><span class="line">Person p5 = <span class="keyword">new</span> Person(<span class="string">&quot;bb&quot;</span>,<span class="number">33</span>);</span><br><span class="line"><span class="meta">@NonNull</span> Observable&lt;GroupedObservable&lt;Integer, Person&gt;&gt; group = Observable.just(p1, p2, p3, p4, p5)</span><br><span class="line">    .groupBy(p -&gt; p.age);<span class="comment">//按年龄进行排序</span></span><br><span class="line">Observable.concat(group).subscribe(<span class="keyword">new</span> Consumer&lt;Person&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Person p)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;&gt;&gt;&gt;&gt;&gt;&gt;&quot;</span>+p.name+<span class="string">&quot;,&quot;</span>+p.age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//Result ----------------------按年龄进行排序结果----</span></span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;hh,<span class="number">13</span></span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;ff,<span class="number">13</span></span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;aa,<span class="number">13</span></span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;gg,<span class="number">23</span></span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;bb,<span class="number">33</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="过滤操作符"><a href="#过滤操作符" class="headerlink" title="过滤操作符"></a>过滤操作符</h2><ul>
+<li><strong>filter</strong> 过滤</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Observable.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>,<span class="number">7</span>, <span class="number">5</span>)</span><br><span class="line">        .filter(i -&gt; i&gt;<span class="number">2</span>)<span class="comment">//只保留大于2的元素</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>elementAt</strong> 返回指定位置的数据</p>
+</li>
+<li><p><strong>distinct</strong>  去重</p>
+</li>
+<li><p><strong>skip 和 take</strong>  skip过滤掉前n项，take只取前n项目。</p>
+</li>
+<li><p><strong>ignoreElements</strong> 忽略所有元素，只保留onComplete和onError通知</p>
+</li>
+<li><p><strong>throttleFirst</strong> 定期发射这个时间段里源Observable发送的第一条数据。默认调度器<code>computation</code>。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Observable.interval(<span class="number">1000</span>,TimeUnit.MILLISECONDS, Schedulers.trampoline())</span><br><span class="line">        .throttleFirst(<span class="number">2000</span>,TimeUnit.MILLISECONDS)</span><br><span class="line">        .subscribe(l -&gt; System.out.println(l));</span><br><span class="line"><span class="comment">//-------------------结果-----------</span></span><br><span class="line"><span class="comment">//  0，3，6，9， .........</span></span><br><span class="line"><span class="comment">//2000改为1900则是 2，4，6，8 ...自己体会</span></span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-lazy-src="18638421-701f61f7a7e2ca0e.webp" alt="image-20201208100601354.png"></p>
+<ul>
+<li><strong>throttleWithTimeOut</strong></li>
+</ul>
+<p>通过时间来限流。源Observable每次发射出来一个数据后都会进行计时，如果再设定好的时间结束前Observable有新的数据发射出来，这个数据就会被丢弃，同时开始重新计时。</p>
+<h2 id="组合操作"><a href="#组合操作" class="headerlink" title="组合操作"></a>组合操作</h2><ul>
+<li><strong>startWith</strong> 在源数据之前插入一系列数据；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable.just(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>).startWith(<span class="number">1</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>merge</strong> 合并<code>Observable</code>，可能会数据交错。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable.merge(obs1,obs2)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>concat</strong> 合并<code>Observable</code>，严格按照顺序发射。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable.concat(obs1,obs2)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>zip</strong> 合并数据。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@NonNull</span> Observable&lt;Long&gt; obs1 = Observable.just(<span class="number">1L</span>,<span class="number">2L</span>,<span class="number">3L</span>);</span><br><span class="line"><span class="meta">@NonNull</span> Observable&lt;String&gt; obs2 = Observable.just(<span class="string">&quot;1L&quot;</span>,<span class="string">&quot;2L&quot;</span>,<span class="string">&quot;3L&quot;</span>);</span><br><span class="line">Observable.zip(obs1,obs2,(l1,l2) -&gt; l1+<span class="string">&quot;,&quot;</span>+l2).subscribe(l -&gt; System.out.println(l));</span><br><span class="line">----------------------</span><br><span class="line"><span class="number">1</span>,<span class="number">1L</span></span><br><span class="line"><span class="number">2</span>,<span class="number">2L</span></span><br><span class="line"><span class="number">3</span>,<span class="number">3L</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>**combineLasetst ** 用前者最后一条发射的数据进行合并。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@NonNull</span> Observable&lt;Long&gt; obs1 = Observable.just(<span class="number">1L</span>,<span class="number">2L</span>,<span class="number">3L</span>);</span><br><span class="line"><span class="meta">@NonNull</span> Observable&lt;String&gt; obs2 = Observable.just(<span class="string">&quot;1L&quot;</span>,<span class="string">&quot;2L&quot;</span>,<span class="string">&quot;3L&quot;</span>);</span><br><span class="line">Observable.combineLatest(obs1,obs2,(l1,l2) -&gt; l1+<span class="string">&quot;,&quot;</span>+l2).subscribe(l -&gt; System.out.println(l));</span><br><span class="line">------------------------</span><br><span class="line"><span class="number">3</span>,<span class="number">1L</span></span><br><span class="line"><span class="number">3</span>,<span class="number">2L</span></span><br><span class="line"><span class="number">3</span>,<span class="number">3L</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="辅助操作符"><a href="#辅助操作符" class="headerlink" title="辅助操作符"></a>辅助操作符</h2><ul>
+<li><p><strong>delay</strong> 延迟操作</p>
+</li>
+<li><p><strong>Do</strong> <code>doXXX</code>,do后面加上某个生命周期，即对这个生命周期加了个回调。</p>
+</li>
+<li><p><strong>subscribeOn</strong>、<strong>observeOn</strong> 指定线程；在哪个线程<code>发布</code>，在哪个线程<code>观察</code>；</p>
+</li>
+<li><p><strong>timeOut</strong> 指定一段时间，超时则<code>onError</code>;</p>
+</li>
+</ul>
+<h2 id="错误处理操作符"><a href="#错误处理操作符" class="headerlink" title="错误处理操作符"></a>错误处理操作符</h2><ul>
+<li><strong>catch</strong> <strong>onErrorReturn</strong>、<strong>onErrorResume</strong>和<strong>onExceptionResumeNext</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">RxJavaPlugins.setErrorHandler(e -&gt; &#123; &#125;);</span><br><span class="line">Observable.create((ObservableOnSubscribe&lt;Integer&gt;) emitter -&gt; &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i&gt;<span class="number">2</span>&#123;</span><br><span class="line">            emitter.onError(<span class="keyword">new</span> Throwable(<span class="string">&quot;ERROR&quot;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        emitter.onNext(i);</span><br><span class="line">    &#125;</span><br><span class="line">    emitter.onComplete();</span><br><span class="line">&#125;)onErrorReturn(t -&gt; <span class="number">100</span>)<span class="comment">//错误的时候直接返回数据100</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line">complete</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>retry</strong> 出错后重试的次数。</li>
+</ul>
+<h2 id="布尔操作符"><a href="#布尔操作符" class="headerlink" title="布尔操作符"></a>布尔操作符</h2><ul>
+<li><strong>all</strong> 对源<code>Observable</code>发射的所有数据进行判断，全满足条件则返回<code>true</code>，否则返回<code>false</code>。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Observable.just(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">        .all(integer -&gt; &#123;</span><br><span class="line">            System.out.println(integer);</span><br><span class="line">            <span class="keyword">return</span> integer&lt;<span class="number">3</span>;</span><br><span class="line">        &#125;)</span><br><span class="line">        .subscribe(aBoolean -&gt; System.out.println(aBoolean));</span><br><span class="line"><span class="comment">//-----------------结果------</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="keyword">false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>contains</strong> 是否包含这个数据；<strong>isEmpty</strong> 是否为空；</li>
+</ul>
+<h2 id="条件操作符"><a href="#条件操作符" class="headerlink" title="条件操作符"></a>条件操作符</h2><ul>
+<li><strong>amb</strong> 多个Observable中，只发射<strong>第一个发射数据的</strong>的Observable。</li>
+<li><strong>defaultEmpty</strong> 没发射数据则返回一个默认数据。</li>
+</ul>
+<h2 id="转换操作符"><a href="#转换操作符" class="headerlink" title="转换操作符"></a>转换操作符</h2><p>将Observable转换成另一个对象或数据结构。比map更简介。</p>
+<ul>
+<li><strong>toList</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Observable.just(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">        .toList()</span><br><span class="line">        .subscribe(list -&gt; &#123;System.out.println(list.size())&#125;);<span class="comment">//&#123;1,2,3.4,5&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>toSortedList</strong>  和<strong>toList</strong>一样，不过多了个排序功能，所以发射对象要Comparable。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Observable.just(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">        .toMap(<span class="keyword">new</span> Function&lt;Integer, String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">apply</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> integer.toString();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .subscribe(map -&gt; System.out.println(map.toString()));</span><br><span class="line"><span class="comment">//-------------------------result---------------</span></span><br><span class="line"><span class="comment">//.subscribe(map -&gt; System.out.println(map.toString()));</span></span><br><span class="line"><span class="comment">//返回的是 &#123;(&quot;1&quot;,1),(&quot;2&quot;,2) ...(&quot;5&quot;,5）&#125;这个map</span></span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<p>未完待续。。。</p>
+<p><strong>ps: 其实还有很多没写，太多了，学不动了😵</strong></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">@caoyangim</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://caoyangim.github.io/2020/12/09/RxJava%E6%93%8D%E4%BD%9C%E7%AC%A6/">https://caoyangim.github.io/2020/12/09/RxJava%E6%93%8D%E4%BD%9C%E7%AC%A6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://caoyangim.github.io" target="_blank">纵有疾风起，人生不言弃。</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/android/">android</a><a class="post-meta__tags" href="/tags/rxjava/">rxjava</a></div><div class="post_share"><div class="social-share" data-image="/2020/12/09/RxJava%E6%93%8D%E4%BD%9C%E7%AC%A6/84311628_p0.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2020/12/04/Java%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%89%8D%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84%E4%BA%8B/"><img class="next-cover" data-lazy-src="/2020/12/04/Java%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%89%8D%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84%E4%BA%8B/84496518_p0.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java 响应式编程【Reactive Programming in Java】</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/11/02/Muldex相关bug/" title="Cannot fit requested classes in a single dex file"><img class="relatedPosts_cover" data-lazy-src="https://w.wallhaven.cc/full/96/wallhaven-967zyk.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-02</div><div class="relatedPosts_title">Cannot fit requested classes in a single dex file</div></div></a></div><div class="relatedPosts_item"><a href="/2020/09/01/retrofit相关bug/" title="retrofit：Unable to create call adapter for class java.lang.Object"><img class="relatedPosts_cover" data-lazy-src="https://w.wallhaven.cc/full/6q/wallhaven-6qezll.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-09-01</div><div class="relatedPosts_title">retrofit：Unable to create call adapter for class java.lang.Object</div></div></a></div><div class="relatedPosts_item"><a href="/2020/09/01/retrofit相关bug2/" title="retrofit：Unable to create call adapter for class java.lang.Object"><img class="relatedPosts_cover" data-lazy-src="https://w.wallhaven.cc/full/x1/wallhaven-x1wroo.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-09-01</div><div class="relatedPosts_title">retrofit：Unable to create call adapter for class java.lang.Object</div></div></a></div><div class="relatedPosts_item"><a href="/2020/11/02/Android操了蛋的PorterDuffXfermode/" title="对PorterDuffXferMode的理解"><img class="relatedPosts_cover" data-lazy-src="https://w.wallhaven.cc/full/47/wallhaven-47elxo.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-02</div><div class="relatedPosts_title">对PorterDuffXferMode的理解</div></div></a></div><div class="relatedPosts_item"><a href="/2020/11/02/ReentranLock图解/" title="ReentranLock运行机制图解"><img class="relatedPosts_cover" data-lazy-src="2020/11/02/ReentranLock图解/1240.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-02</div><div class="relatedPosts_title">ReentranLock运行机制图解</div></div></a></div><div class="relatedPosts_item"><a href="/2020/11/02/View体系相关/" title="View体系相关"><img class="relatedPosts_cover" data-lazy-src="https://w.wallhaven.cc/full/83/wallhaven-83xz31.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-02</div><div class="relatedPosts_title">View体系相关</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By @caoyangim</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>

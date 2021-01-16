@@ -1,0 +1,538 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>shell常用命令行 | Yangim's Blog</title><meta name="description" content="学习地址： https:&#x2F;&#x2F;learnku.com&#x2F;articles&#x2F;5932&#x2F;bash-command-and-syntax-take-you-to-upgrade-hit-boss， 菜鸟教程 https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;oxuRxtrO2Ag shell命令行基础命令   命令 解释    ls 展示文件及目录；   ls -a 展示所有文件及目录（包括隐"><meta name="author" content="@caoyangim"><meta name="copyright" content="@caoyangim"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://caoyangim.github.io/2021/01/10/shell%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="shell常用命令行"><meta property="og:url" content="https://caoyangim.github.io/2021/01/10/shell%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"><meta property="og:site_name" content="Yangim's Blog"><meta property="og:description" content="学习地址： https:&#x2F;&#x2F;learnku.com&#x2F;articles&#x2F;5932&#x2F;bash-command-and-syntax-take-you-to-upgrade-hit-boss， 菜鸟教程 https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;oxuRxtrO2Ag shell命令行基础命令   命令 解释    ls 展示文件及目录；   ls -a 展示所有文件及目录（包括隐"><meta property="og:image" content="https://i.mzt.cx/2020/09/22/789249ec94674.jpg"><meta property="article:published_time" content="2021-01-09T16:16:31.032Z"><meta property="article:modified_time" content="2021-01-09T16:20:01.619Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.1.1',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: false,
+  copyright: undefined,
+  ClickShowText: {"text":"I,LOVE,YOU,枯藤,老树,昏鸦,小桥,流水,人家,古道,西风,瘦马,夕阳西下,断肠人,在天涯","fontSize":"15px"},
+  medium_zoom: true,
+  fancybox: false,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-01-10 00:20:01'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 5.1.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">37</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">12</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">6</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书籍</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div id="web_bg" data-type="color"></div><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#shell%E5%91%BD%E4%BB%A4%E8%A1%8C"><span class="toc-number">1.</span> <span class="toc-text">shell命令行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="toc-number">1.1.</span> <span class="toc-text">基础命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%91%BD%E4%BB%A4%E4%BF%A1%E6%81%AF"><span class="toc-number">1.2.</span> <span class="toc-text">查看命令信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.4.</span> <span class="toc-text">文本操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%93%8D%E4%BD%9C"><span class="toc-number">1.5.</span> <span class="toc-text">权限操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%9D%83%E9%99%90"><span class="toc-number">1.5.1.</span> <span class="toc-text">修改权限</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-number">2.1.</span> <span class="toc-text">变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.1.</span> <span class="toc-text">变量类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="toc-number">2.2.</span> <span class="toc-text">流程控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell-%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">Shell 函数</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.mzt.cx/2020/09/22/789249ec94674.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Yangim's Blog</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书籍</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">shell常用命令行</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-09T16:16:31.032Z" title="发表于 2021-01-10 00:16:31">2021-01-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-09T16:20:01.619Z" title="更新于 2021-01-10 00:20:01">2021-01-10</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>学习地址：</p>
+<p><a target="_blank" rel="noopener" href="https://learnku.com/articles/5932/bash-command-and-syntax-take-you-to-upgrade-hit-boss%EF%BC%8C">https://learnku.com/articles/5932/bash-command-and-syntax-take-you-to-upgrade-hit-boss，</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-shell-passing-arguments.html">菜鸟教程</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=oxuRxtrO2Ag">https://www.youtube.com/watch?v=oxuRxtrO2Ag</a></p>
+<h1 id="shell命令行"><a href="#shell命令行" class="headerlink" title="shell命令行"></a>shell命令行</h1><h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ls</td>
+<td>展示文件及目录；</td>
+</tr>
+<tr>
+<td>ls -a</td>
+<td>展示所有文件及目录（包括隐藏的）；</td>
+</tr>
+<tr>
+<td>pwd</td>
+<td>输出当前目录（print working directory）；</td>
+</tr>
+<tr>
+<td>cd xx</td>
+<td>传送到某个目录下；</td>
+</tr>
+<tr>
+<td>pushd xx</td>
+<td>传送到某个目录下，可返回；</td>
+</tr>
+<tr>
+<td>popd</td>
+<td>👆-返回；</td>
+</tr>
+<tr>
+<td>locate</td>
+<td>检索</td>
+</tr>
+<tr>
+<td>history</td>
+<td>查看近1,000行你执行过的指令；</td>
+</tr>
+</tbody></table>
+<h2 id="查看命令信息"><a href="#查看命令信息" class="headerlink" title="查看命令信息"></a>查看命令信息</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>whatis xx</td>
+<td>对某行指令做出简介。eg:whatis cal ;</td>
+</tr>
+<tr>
+<td><strong>apropos xx</strong></td>
+<td>例举出与xx有关的相关操作。 eg: apropos time ;</td>
+</tr>
+<tr>
+<td>which xx</td>
+<td>检查xx指令是否存在，在哪里。eg: which cal;</td>
+</tr>
+<tr>
+<td>man xx</td>
+<td>查看xx用法 ；eg： man man</td>
+</tr>
+</tbody></table>
+<h2 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用法</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mkdir</td>
+<td>mkdir xx1 xx2</td>
+<td>新建文件夹xx1和xx2</td>
+</tr>
+<tr>
+<td>touch</td>
+<td>touch xx1 xx2</td>
+<td>1. 如果xx文件存在，则<strong>update</strong>这个文件，<strong>刷新文件中记录的时间</strong>；/n</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>2. 如果xx文件不存在，则<strong>新建</strong>该文件。</td>
+</tr>
+<tr>
+<td>cp</td>
+<td>cp ~/xx rexx</td>
+<td>将某路径下的xx文件copy到当前目录，且命名为rexx</td>
+</tr>
+<tr>
+<td>mv</td>
+<td>mv xx1 xx2</td>
+<td>将xx1<strong>移动/move</strong>到xx2,xx1消失。若原来存在xx2，则xx2被<strong>覆盖</strong>；/n 若不存在，则相当于<strong>重命名</strong>了。</td>
+</tr>
+<tr>
+<td>rm</td>
+<td>rm xx</td>
+<td>删除/remove某个文件【<strong>删了就没有了，没有回收站</strong>】</td>
+</tr>
+<tr>
+<td></td>
+<td>rm xx*</td>
+<td>删除该文件夹下以xx打头的所有文件。同理，<code>rm *</code> 就是所有文件了。</td>
+</tr>
+<tr>
+<td></td>
+<td>rm -r xxDirectory</td>
+<td>删除xx文件夹和该文件夹下所有文件。</td>
+</tr>
+<tr>
+<td>rmdir</td>
+<td>rmdir xxDirectory</td>
+<td>删除某个<strong>空</strong>文件夹。</td>
+</tr>
+<tr>
+<td></td>
+<td>rmdir *</td>
+<td>删除所有<strong>空</strong>文件夹。</td>
+</tr>
+</tbody></table>
+<h2 id="文本操作"><a href="#文本操作" class="headerlink" title="文本操作"></a>文本操作</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用法</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cat</td>
+<td>cat xx1，xx2</td>
+<td>查看某(些)个文本。</td>
+</tr>
+<tr>
+<td></td>
+<td>cat &gt;&gt; xx</td>
+<td>编辑某个文本，内容会覆盖原文件。按 ctrl+D/c 返回编辑状态。</td>
+</tr>
+<tr>
+<td></td>
+<td>cat &gt; xx</td>
+<td>编辑某个文本，内容会在添加在原文件末尾。</td>
+</tr>
+<tr>
+<td>nano</td>
+<td>nano</td>
+<td>新建一个文本。ctrl^x退出，y/n是否保存。</td>
+</tr>
+<tr>
+<td></td>
+<td>nano xx</td>
+<td>打开并编辑某个文本。</td>
+</tr>
+<tr>
+<td>xcommand &gt; xxFile</td>
+<td>ls / &gt; a</td>
+<td>将某条指令执行的结果写入a文本文件。</td>
+</tr>
+</tbody></table>
+<h2 id="权限操作"><a href="#权限操作" class="headerlink" title="权限操作"></a>权限操作</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sudo -s</td>
+<td>进入root模式，后续的所有操作是root权限。exit退出。</td>
+</tr>
+<tr>
+<td>su -userA</td>
+<td>切换账号，进入userA。</td>
+</tr>
+<tr>
+<td>su -</td>
+<td>切换到root账号。exit退出。</td>
+</tr>
+</tbody></table>
+<p>ls -l 可显示文件权限，执行结果如下：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="1240" alt="image-20210104152415759.png"></p>
+<table>
+<thead>
+<tr>
+<th align="center">第1位</th>
+<th align="center">2~4位</th>
+<th align="center">5~7位</th>
+<th align="center">8~10位</th>
+<th align="center">数字</th>
+<th align="center">user</th>
+<th align="center">user</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">文件类型</td>
+<td align="center">所有者权限</td>
+<td align="center">所有组权限</td>
+<td align="center">普通用户权限</td>
+<td align="center">执行次数</td>
+<td align="center">用户名</td>
+<td align="center">组名</td>
+</tr>
+<tr>
+<td align="center">- 普通文件</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">d 目录文件</td>
+<td align="center">r 可读</td>
+<td align="center">r 可读</td>
+<td align="center">r 可读</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">p 管理文件</td>
+<td align="center">w 可写</td>
+<td align="center">w 可写</td>
+<td align="center">w 可写</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">i 链接文件</td>
+<td align="center">x 可执行</td>
+<td align="center">x 可执行</td>
+<td align="center">x 可执行</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">b 块设备文件</td>
+<td align="center">- 无权限</td>
+<td align="center">- 无权限</td>
+<td align="center">- 无权限</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">c 字符设备文件</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">s 套接字文件</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p><img src= "/img/loading.gif" data-lazy-src="1241" alt="image-20210104153655672.png"></p>
+<h3 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用法</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>chmod (change mode)</td>
+<td>chmod +x filed</td>
+<td>给filed文件（普通用户）添加可执行权限。</td>
+</tr>
+<tr>
+<td></td>
+<td>chmod +r filed</td>
+<td>给filed文件（普通用户）添加可读权限。</td>
+</tr>
+<tr>
+<td></td>
+<td>chmod +w filed</td>
+<td>给filed文件（普通用户）添加可写权限。</td>
+</tr>
+</tbody></table>
+<p>也可以这么写，更舒服；参考上图：</p>
+<p>chmod 743 filed  —&gt;  设置filed权限位：rwx,r–,-wx ；</p>
+<p>因为我们可以用1-7的数字表示每一种权限的组合；</p>
+<table>
+<thead>
+<tr>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1+2</td>
+<td align="center">4</td>
+<td align="center">1+4</td>
+<td align="center">2+4</td>
+<td align="center">1+2+4</td>
+</tr>
+<tr>
+<td align="center">x/可执行</td>
+<td align="center">w/可写</td>
+<td align="center">x+w/</td>
+<td align="center">r/可读</td>
+<td align="center">x+r/可执行可读</td>
+<td align="center">w+r/可写可读</td>
+<td align="center">x+w+r/可读可写可执行</td>
+</tr>
+</tbody></table>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="变量类型"><a href="#变量类型" class="headerlink" title="变量类型"></a>变量类型</h3><p>运行shell时，会同时存在三种变量：</p>
+<ul>
+<li><strong>1) 局部变量</strong> 局部变量在脚本或命令中定义，仅在当前shell实例中有效，其他shell启动的程序不能访问局部变量。</li>
+<li><strong>2) 环境变量</strong> 所有的程序，包括shell启动的程序，都能访问环境变量，有些程序需要环境变量来保证其正常运行。必要的时候shell脚本也可以定义环境变量。</li>
+<li><strong>3) shell变量</strong> shell变量是由shell程序设置的特殊变量。shell变量中有一部分是环境变量，有一部分是局部变量，这些变量保证了shell的正常运行</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>语法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Shell 字符串</td>
+<td><code>str=&#39;this is a string&#39;</code></td>
+<td><code>your_name=&quot;runoob&quot;</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>string=&quot;abcd&quot;</code></td>
+<td><code>echo $&#123;#string&#125; </code> #输出 4</td>
+</tr>
+<tr>
+<td>Shell 数组</td>
+<td><code>array_name=(value0 value1 value2 value3)</code></td>
+<td>创建数组：数组名=(值1 值2 … 值n)</td>
+</tr>
+<tr>
+<td></td>
+<td><code>valuen=$&#123;array_name[n]&#125;</code></td>
+<td><code>echo $&#123;array_name[@]&#125;</code> # @表示获取所有元素</td>
+</tr>
+<tr>
+<td></td>
+<td><code>length=$&#123;#array_name[@]&#125;</code></td>
+<td><code>length=$&#123;#array_name[*]&#125;</code> # 获取数组长度</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h2><p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-shell-process-control.html">https://www.runoob.com/linux/linux-shell-process-control.html</a></p>
+<h2 id="Shell-函数"><a href="#Shell-函数" class="headerlink" title="Shell 函数"></a>Shell 函数</h2><p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-shell-func.html">https://www.runoob.com/linux/linux-shell-func.html</a></p>
+<p>&lt;未完·待续&gt;</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">@caoyangim</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://caoyangim.github.io/2021/01/10/shell%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">https://caoyangim.github.io/2021/01/10/shell%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://caoyangim.github.io" target="_blank">Yangim's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.mzt.cx/2020/09/22/789249ec94674.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/01/09/node%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/"><img class="next-cover" data-lazy-src="https://i.mzt.cx/2020/09/22/44bf816fc6472.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">npm常用命令行</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></article></main><footer id="footer" style="background-image: url(https://i.mzt.cx/2020/09/22/789249ec94674.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By @caoyangim</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk({
+      clientID: '86ddb46a1a64e44e8d85',
+      clientSecret: 'c8b34ff31ea94ad0d21aa04353684e77f2bcfa79',
+      repo: 'gitalk_comments',
+      owner: 'caoyangim',
+      admin: ['caoyangim'],
+      id: 'd3092ffaab0e2d676628bf1dfa684421',
+      language: 'zh-CN',
+      perPage: 10,
+      distractionFreeMode: true,
+      pagerDirection: 'last',
+      createIssueManually: true,
+      updateCountCallback: commentCount
+    })
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    $.getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js', initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !false) {
+  if (false) loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script src="/js/third-party/click_heart.js" async="async"></script><script src="/js/third-party/ClickShowText.js" async="async"></script></div></body></html>
